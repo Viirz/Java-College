@@ -1,6 +1,5 @@
 package Tugas;
 
-import java.util.Arrays;
 import java.util.Scanner;
 
 public class TugasAkhir {
@@ -29,21 +28,34 @@ public class TugasAkhir {
             }
             perintah[i] = masukan;
         }
-        for (int i = 0; i < perintah.length; i++) {
-            String[] jenisPerintah = perintah[i].split(" ");
-            if (jenisPerintah[i].equals("null")) {
+        for (int j = 0; j < perintah.length; j++) {
+            if (perintah[j]==null)
                 continue;
-            } else if (jenisPerintah[i].equals("SISWA")) {
-                String nama = jenisPerintah[i + 1];
-                tambahSiswa(nama);
-            } else if (jenisPerintah[i].equals("MATPEL")) {
-                String matpel = jenisPerintah[i + 1];
-                tambahMatpel(matpel);
-            } else if (jenisPerintah[i].equals("NILAI")) {
-                String nama = jenisPerintah[i + 1];
-                String semester = jenisPerintah[i + 2];
-                String martep = jenisPerintah[i + 3];
-
+            String[] jenisPerintah = perintah[j].split(" ");
+            switch (jenisPerintah[0]) {
+                case "SISWA" -> {
+                    String nama = jenisPerintah[1];
+                    tambahSiswa(nama);
+                    break;
+                }
+                case "MATPEL" -> {
+                    String matpel = jenisPerintah[1];
+                    tambahMatpel(matpel);
+                    break;
+                }
+                case "NILAI" -> {
+                    String nama = jenisPerintah[1];
+                    String semesterapa = jenisPerintah[2];
+                    int semester = 0;
+                    if (semesterapa.equals("GENAP"))
+                        semester = 1;
+                    String matpel = jenisPerintah[3];
+                    int nilai = Integer.parseInt(jenisPerintah[4]);
+                    isiDataSiswa(nama,semester,matpel,nilai);
+                    break;
+                }
+                case "PRINT_SISWA" -> printSiswa();
+                case "PRINT_MATPEL" -> printMatpel();
             }
         }
         
@@ -63,7 +75,7 @@ public class TugasAkhir {
         }
     }
     public static void tambahMatpel(String matpel) {
-        if (banyakSiswaMatpel < MAX_SISWA) {
+        if (banyakSiswaMatpel < MAX_MATPEL) {
             for (int i = 0; i <= banyakSiswaMatpel; i++) {
                 siswaMatpel[i][0][banyakSiswaMatpel] = matpel;
                 siswaMatpel[i][1][banyakSiswaMatpel] = matpel;
@@ -82,6 +94,7 @@ public class TugasAkhir {
     nilai: nilai matpel tiap semester
     */
     public static void isiDataSiswa(String nama, int semester, String matpel, int nilai){
+
     }
     public static void printSiswa(){
         System.out.print("SISWA: ");
@@ -93,7 +106,7 @@ public class TugasAkhir {
     public static void printMatpel(){
         System.out.print("MATA PELAJARAN: ");
         for(int i=0;i<banyakSiswaMatpel;i++){
-            System.out.print(banyakSiswaMatpel[i] + " ");
+            System.out.print(siswaMatpel[0][0][i] + " ");
         }
         System.out.println("");
     }
