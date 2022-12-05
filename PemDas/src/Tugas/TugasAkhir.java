@@ -1,5 +1,6 @@
 package Tugas;
 
+import java.sql.SQLOutput;
 import java.util.Scanner;
 
 public class TugasAkhir {
@@ -45,9 +46,9 @@ public class TugasAkhir {
                 }
                 case "NILAI" -> {
                     String nama = jenisPerintah[1];
-                    String semesterapa = jenisPerintah[2];
+                    String semestberapa = jenisPerintah[2];
                     int semester = 0;
-                    if (semesterapa.equals("GENAP"))
+                    if (semestberapa.equals("GENAP"))
                         semester = 1;
                     String matpel = jenisPerintah[3];
                     int nilai = Integer.parseInt(jenisPerintah[4]);
@@ -56,6 +57,10 @@ public class TugasAkhir {
                 }
                 case "PRINT_SISWA" -> printSiswa();
                 case "PRINT_MATPEL" -> printMatpel();
+                case "PRINT_RAPORT" -> {
+                    String nama = jenisPerintah[1];
+                    printRaportSiswa(nama);
+                }
             }
         }
         
@@ -67,10 +72,6 @@ public class TugasAkhir {
     public static void tambahSiswa(String nama){
         if (banyakSiswa<MAX_SISWA) {
             siswa[banyakSiswa] = nama;
-            for (int i=0;i<=banyakSiswaMatpel;i++) {
-                siswaMatpel[banyakSiswa][0][i] = nama;
-                siswaMatpel[banyakSiswa][1][i] = nama;
-            }
             banyakSiswa++;
         }
     }
@@ -94,7 +95,22 @@ public class TugasAkhir {
     nilai: nilai matpel tiap semester
     */
     public static void isiDataSiswa(String nama, int semester, String matpel, int nilai){
-
+        for (int i=0;i<MAX_MATPEL;i++){
+            for (int j=0;j<MAX_MATPEL;j++) {
+            if (nama.equals(siswa[i])) {
+                switch (semester) {
+                    case 0 -> {
+                        if (matpel.equals(siswaMatpel[i][0][j]))
+                            siswaMatpelNilai[i][0][j] = nilai;
+                        }
+                    case 1 -> {
+                        if (matpel.equals(siswaMatpel[i][1][j]))
+                            siswaMatpelNilai[i][1][j] = nilai;
+                        }
+                    }
+                }
+            }
+        }
     }
     public static void printSiswa(){
         System.out.print("SISWA: ");
@@ -111,6 +127,17 @@ public class TugasAkhir {
         System.out.println("");
     }
     public static void printRaportSiswa(String nama){
+        System.out.println(">> BEGIN RAPORT <<\n");
+        System.out.println("Nama: " + nama);
+        System.out.println("Semester: Ganjil");
+        System.out.print("Mata Pelajaran\t\t|");
+        System.out.printf("%10s|","Nilai");
+        System.out.printf("%10s\n","Nilai Huruf");
+        System.out.println("-------------------------------------------");
+        for(int i=0;i<MAX_MATPEL;i++){
+            System.out.print(siswaMatpel[0][0][i] + "\t\t|");
+            System.out.print(siswaMatpelNilai[][][]);
+        }
     }
 //    public static int cariJuara(int semester){
 //    }
