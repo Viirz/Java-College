@@ -13,11 +13,15 @@ public class Exercise8_2 {
                 number[i][j] = input.nextDouble();
             }
         }
-        System.out.println("Sum of the element in the major diagonal is " + );
+        sum = sumMajorDiagonal(number);
+        System.out.println("Sum of the element in the major diagonal is " + sum);
     }
 
     static double sumMajorDiagonal(double[][] m) {
     double sum = 0;
+    for (int i=0;i<4;i++){
+        sum +=  m[i][i];
+    }
     return sum;
     }
 }
