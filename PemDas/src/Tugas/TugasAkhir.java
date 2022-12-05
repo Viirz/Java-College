@@ -127,17 +127,69 @@ public class TugasAkhir {
         System.out.println("");
     }
     public static void printRaportSiswa(String nama){
+        String nilaiHuruf = "";
         System.out.println(">> BEGIN RAPORT <<\n");
         System.out.println("Nama: " + nama);
         System.out.println("Semester: Ganjil");
-        System.out.print("Mata Pelajaran\t\t|");
+        System.out.printf("%-20s|","Mata Pelajaran");
         System.out.printf("%10s|","Nilai");
         System.out.printf("%10s\n","Nilai Huruf");
         System.out.println("-------------------------------------------");
-        for(int i=0;i<MAX_MATPEL;i++){
-            System.out.print(siswaMatpel[0][0][i] + "\t\t|");
-            System.out.print(siswaMatpelNilai[][][]);
+        for(int i=0;i<=banyakSiswa;i++) {
+            System.out.printf("%-20s|",siswaMatpel[0][0][i]);
+            for (int j = 0; j <= banyakSiswaMatpel; j++) {
+                System.out.printf("%10.1f|",siswaMatpelNilai[i][0][j]);
+                if (siswaMatpelNilai[i][0][j] > 80){
+                    nilaiHuruf = "A";
+                } else if (siswaMatpelNilai[i][0][j] > 75 && siswaMatpelNilai[i][0][j] <= 80) {
+                    nilaiHuruf = "B+";
+                } else if (siswaMatpelNilai[i][0][j] > 69 && siswaMatpelNilai[i][0][j] <= 75) {
+                    nilaiHuruf = "B";
+                } else if (siswaMatpelNilai[i][0][j] > 65 && siswaMatpelNilai[i][0][j] <= 69) {
+                    nilaiHuruf = "C+";
+                } else if (siswaMatpelNilai[i][0][j] > 59 && siswaMatpelNilai[i][0][j] <= 65) {
+                    nilaiHuruf = "C";
+                } else if (siswaMatpelNilai[i][0][j] > 55 && siswaMatpelNilai[i][0][j] <= 59) {
+                    nilaiHuruf = "D+";
+                } else if (siswaMatpelNilai[i][0][j] > 40 && siswaMatpelNilai[i][0][j] <= 55) {
+                    nilaiHuruf = "D+";
+                } else
+                    nilaiHuruf = "E";
+            }
+            System.out.printf("%10s\n",nilaiHuruf);
         }
+        System.out.println("");
+        System.out.println("Nama: " + nama);
+        System.out.println("Semester: Genap");
+        System.out.printf("%-20s|","Mata Pelajaran");
+        System.out.printf("%10s|","Nilai");
+        System.out.printf("%10s\n","Nilai Huruf");
+        System.out.println("-------------------------------------------");
+        for(int i=0;i<=banyakSiswa;i++) {
+            System.out.printf("%-20s|",siswaMatpel[0][1][i]);
+            for (int j = 0; j <= banyakSiswaMatpel; j++) {
+                System.out.printf("%10.1f|",siswaMatpelNilai[i][1][j]);
+                if (siswaMatpelNilai[i][1][j] > 80){
+                    nilaiHuruf = "A";
+                } else if (siswaMatpelNilai[i][1][j] > 75 && siswaMatpelNilai[i][1][j] <= 80) {
+                    nilaiHuruf = "B+";
+                } else if (siswaMatpelNilai[i][1][j] > 69 && siswaMatpelNilai[i][1][j] <= 75) {
+                    nilaiHuruf = "B";
+                } else if (siswaMatpelNilai[i][1][j] > 65 && siswaMatpelNilai[i][1][j] <= 69) {
+                    nilaiHuruf = "C+";
+                } else if (siswaMatpelNilai[i][1][j] > 59 && siswaMatpelNilai[i][1][j] <= 65) {
+                    nilaiHuruf = "C";
+                } else if (siswaMatpelNilai[i][0][j] > 55 && siswaMatpelNilai[i][1][j] <= 59) {
+                    nilaiHuruf = "D+";
+                } else if (siswaMatpelNilai[i][0][j] > 40 && siswaMatpelNilai[i][1][j] <= 55) {
+                    nilaiHuruf = "D+";
+                } else
+                    nilaiHuruf = "E";
+            }
+            System.out.printf("%10s\n",nilaiHuruf);
+        }
+        System.out.println("");
+        System.out.println(">> END RAPORT <<");
     }
 //    public static int cariJuara(int semester){
 //    }
