@@ -1,6 +1,5 @@
 package Tugas;
 
-import java.sql.SQLOutput;
 import java.util.Scanner;
 
 public class TugasAkhir {
@@ -21,7 +20,6 @@ public class TugasAkhir {
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
         String[] perintah = new String[500];
-//            nextLine().split(" ");
         for (int i = 0; i < perintah.length; i++) {
             String masukan = input.nextLine();
             if (masukan.equals("")) {
@@ -37,12 +35,10 @@ public class TugasAkhir {
                 case "SISWA" -> {
                     String nama = jenisPerintah[1];
                     tambahSiswa(nama);
-                    break;
                 }
                 case "MATPEL" -> {
                     String matpel = jenisPerintah[1];
                     tambahMatpel(matpel);
-                    break;
                 }
                 case "NILAI" -> {
                     String nama = jenisPerintah[1];
@@ -53,7 +49,6 @@ public class TugasAkhir {
                     String matpel = jenisPerintah[3];
                     int nilai = Integer.parseInt(jenisPerintah[4]);
                     isiDataSiswa(nama,semester,matpel,nilai);
-                    break;
                 }
                 case "PRINT_SISWA" -> printSiswa();
                 case "PRINT_MATPEL" -> printMatpel();
@@ -61,14 +56,57 @@ public class TugasAkhir {
                     String nama = jenisPerintah[1];
                     printRaportSiswa(nama);
                 }
+                case "CARI_JUARA" -> {
+                    String semesterBerapa = jenisPerintah[1];
+                    int sum = 0;
+                    int semester = 1;
+                    if (semesterBerapa.equals("GANJIL")){
+                        semester = 0;
+                    }
+                    int nilaiTerbesar = cariJuara(semester);
+                    for (int k=0;k<banyakSiswa;k++){
+                        for (int l=0;l<banyakSiswaMatpel;l++){
+                            sum += siswaMatpelNilai[k][semester][l];
+                        }
+                        if (sum==nilaiTerbesar){
+                            System.out.println("JUARA_1 " + semesterBerapa + " " + siswa[k]);
+                        }
+                        sum = 0;
+                    }
+                }
+                case "HITUNG_NILAI" -> {
+                    String semesterBerapa = jenisPerintah[1];
+                    int semester = 1;
+                    if (semesterBerapa.equals("GANJIL")){
+                        semester = 0;
+                    }
+                    hitungNilai(semester);
+                }
             }
         }
         
     }
 
-//    public static String konversiNilai(double nilai){
-//
-//    }
+    public static String konversiNilai(double nilai){
+        String nilaiHuruf="";
+        if (nilai > 80){
+            nilaiHuruf = "A";
+        } else if (nilai > 75 && nilai <= 80) {
+            nilaiHuruf = "B+";
+        } else if (nilai > 69 && nilai <= 75) {
+            nilaiHuruf = "B";
+        } else if (nilai > 65 && nilai <= 69) {
+            nilaiHuruf = "C+";
+        } else if (nilai > 59 && nilai <= 65) {
+            nilaiHuruf = "C";
+        } else if (nilai > 55 && nilai <= 59) {
+            nilaiHuruf = "D+";
+        } else if (nilai > 40 && nilai <= 55) {
+            nilaiHuruf = "D+";
+        } else
+            nilaiHuruf = "E";
+        return nilaiHuruf;
+    }
     public static void tambahSiswa(String nama){
         if (banyakSiswa<MAX_SISWA) {
             siswa[banyakSiswa] = nama;
@@ -77,17 +115,31 @@ public class TugasAkhir {
     }
     public static void tambahMatpel(String matpel) {
         if (banyakSiswaMatpel < MAX_MATPEL) {
-            for (int i = 0; i <= banyakSiswaMatpel; i++) {
-                siswaMatpel[i][0][banyakSiswaMatpel] = matpel;
-                siswaMatpel[i][1][banyakSiswaMatpel] = matpel;
+            for (int i = 0; i < MAX_SISWA; i++) {
+                    siswaMatpel[i][0][banyakSiswaMatpel] = matpel;
+                    siswaMatpel[i][1][banyakSiswaMatpel] = matpel;
             }
             banyakSiswaMatpel++;
         }
     }
-//    public static int cariSiswa(String nama){
-//    }
-//    public static int cariMatpel(String matpel){
-//    }
+    public static int cariSiswa(String nama){
+        int indexSiswa=0;
+        for(int i=0;i<banyakSiswa;i++){
+            if (siswa[i].equals(nama)){
+                break;
+            } else indexSiswa++;
+        }
+        return indexSiswa;
+    }
+    public static int cariMatpel(String matpel){
+        int indexMatpel=0;
+        for (int i=0;i<banyakSiswaMatpel;i++){
+            if(matpel.equals(siswaMatpel[0][0][i])){
+                break;
+            } else indexMatpel++;
+        }
+        return indexMatpel;
+    }
     /*
     nama: nama siswa
     semester: semester, 0 untuk ganjil, 1 untuk genap
@@ -95,20 +147,18 @@ public class TugasAkhir {
     nilai: nilai matpel tiap semester
     */
     public static void isiDataSiswa(String nama, int semester, String matpel, int nilai){
-        for (int i=0;i<MAX_MATPEL;i++){
-            for (int j=0;j<MAX_MATPEL;j++) {
-            if (nama.equals(siswa[i])) {
-                switch (semester) {
-                    case 0 -> {
-                        if (matpel.equals(siswaMatpel[i][0][j]))
-                            siswaMatpelNilai[i][0][j] = nilai;
-                        }
-                    case 1 -> {
-                        if (matpel.equals(siswaMatpel[i][1][j]))
-                            siswaMatpelNilai[i][1][j] = nilai;
-                        }
-                    }
-                }
+        for (int i=0;i<banyakSiswaMatpel;i++){
+        int indexSiswa = cariSiswa(nama);
+        int indexMatpel = cariMatpel(matpel);
+         switch (semester){
+             case 0 ->{
+                 siswaMatpelNilai[indexSiswa][0][indexMatpel] = nilai;
+                 break;
+             }
+             case 1 ->{
+                 siswaMatpelNilai[indexSiswa][1][indexMatpel] = nilai;
+                 break;
+             }
             }
         }
     }
@@ -136,28 +186,13 @@ public class TugasAkhir {
         System.out.printf("%10s\n","Nilai Huruf");
         System.out.println("-------------------------------------------");
         for(int i=0;i<=banyakSiswa;i++) {
-            System.out.printf("%-20s|",siswaMatpel[0][0][i]);
-            for (int j = 0; j <= banyakSiswaMatpel; j++) {
-                System.out.printf("%10.1f|",siswaMatpelNilai[i][0][j]);
-                if (siswaMatpelNilai[i][0][j] > 80){
-                    nilaiHuruf = "A";
-                } else if (siswaMatpelNilai[i][0][j] > 75 && siswaMatpelNilai[i][0][j] <= 80) {
-                    nilaiHuruf = "B+";
-                } else if (siswaMatpelNilai[i][0][j] > 69 && siswaMatpelNilai[i][0][j] <= 75) {
-                    nilaiHuruf = "B";
-                } else if (siswaMatpelNilai[i][0][j] > 65 && siswaMatpelNilai[i][0][j] <= 69) {
-                    nilaiHuruf = "C+";
-                } else if (siswaMatpelNilai[i][0][j] > 59 && siswaMatpelNilai[i][0][j] <= 65) {
-                    nilaiHuruf = "C";
-                } else if (siswaMatpelNilai[i][0][j] > 55 && siswaMatpelNilai[i][0][j] <= 59) {
-                    nilaiHuruf = "D+";
-                } else if (siswaMatpelNilai[i][0][j] > 40 && siswaMatpelNilai[i][0][j] <= 55) {
-                    nilaiHuruf = "D+";
-                } else
-                    nilaiHuruf = "E";
-            }
+            int indexSiswa = cariSiswa(nama);
+            nilaiHuruf = konversiNilai(siswaMatpelNilai[indexSiswa][0][i]);
+            System.out.printf("%-20s|",siswaMatpel[indexSiswa][0][i]);
+            System.out.printf("%10.1f|", siswaMatpelNilai[indexSiswa][0][i]);
             System.out.printf("%10s\n",nilaiHuruf);
         }
+        System.out.println(">>END RAPORT<<");
         System.out.println("");
         System.out.println("Nama: " + nama);
         System.out.println("Semester: Genap");
@@ -165,34 +200,28 @@ public class TugasAkhir {
         System.out.printf("%10s|","Nilai");
         System.out.printf("%10s\n","Nilai Huruf");
         System.out.println("-------------------------------------------");
-        for(int i=0;i<=banyakSiswa;i++) {
-            System.out.printf("%-20s|",siswaMatpel[0][1][i]);
-            for (int j = 0; j <= banyakSiswaMatpel; j++) {
-                System.out.printf("%10.1f|",siswaMatpelNilai[i][1][j]);
-                if (siswaMatpelNilai[i][1][j] > 80){
-                    nilaiHuruf = "A";
-                } else if (siswaMatpelNilai[i][1][j] > 75 && siswaMatpelNilai[i][1][j] <= 80) {
-                    nilaiHuruf = "B+";
-                } else if (siswaMatpelNilai[i][1][j] > 69 && siswaMatpelNilai[i][1][j] <= 75) {
-                    nilaiHuruf = "B";
-                } else if (siswaMatpelNilai[i][1][j] > 65 && siswaMatpelNilai[i][1][j] <= 69) {
-                    nilaiHuruf = "C+";
-                } else if (siswaMatpelNilai[i][1][j] > 59 && siswaMatpelNilai[i][1][j] <= 65) {
-                    nilaiHuruf = "C";
-                } else if (siswaMatpelNilai[i][0][j] > 55 && siswaMatpelNilai[i][1][j] <= 59) {
-                    nilaiHuruf = "D+";
-                } else if (siswaMatpelNilai[i][0][j] > 40 && siswaMatpelNilai[i][1][j] <= 55) {
-                    nilaiHuruf = "D+";
-                } else
-                    nilaiHuruf = "E";
-            }
+        for(int j=0;j<=banyakSiswa;j++) {
+            int indexSiswa = cariSiswa(nama);
+            nilaiHuruf = konversiNilai(siswaMatpelNilai[indexSiswa][1][j]);
+            System.out.printf("%-20s|",siswaMatpel[indexSiswa][1][j]);
+            System.out.printf("%10.1f|", siswaMatpelNilai[indexSiswa][1][j]);
             System.out.printf("%10s\n",nilaiHuruf);
         }
-        System.out.println("");
-        System.out.println(">> END RAPORT <<");
+        System.out.println(">>END RAPORT<<");
     }
-//    public static int cariJuara(int semester){
-//    }
+    public static int cariJuara(int semester){
+        int sum=0;int nilaiTerbesar=0;
+        for (int i=0;i<banyakSiswa;i++){
+            sum = 0;
+            for (int j=0;j<banyakSiswaMatpel;j++){
+                sum += siswaMatpelNilai[i][semester][j];
+            }
+            if (sum>nilaiTerbesar)
+                nilaiTerbesar = sum;
+        }
+        return nilaiTerbesar;
+    }
     public static void hitungNilai(int semester){
+
     }
 }
