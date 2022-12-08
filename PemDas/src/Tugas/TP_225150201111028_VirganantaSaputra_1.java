@@ -1,7 +1,7 @@
 /**
  Nama 1: Virgananta Saputra (NIM 225150201111028)
  Nama 2: Muhammad Nadhil Luthfirrahman (NIM 225150207111049)
- Tanggung jawab 1: mengerjakan soal c, membuat codingan, format file, dan diskusi jawban d dan e
+ Tanggung jawab 1: mengerjakan soal c, membuat source code, format file, dan diskusi jawban d dan e
  Tanggung jawab 2: mengerjakan soal a dan b, membuat pseudocode, membuat flowchart, dan diskusi jawaban d dan e
  **/
 package Tugas;
@@ -153,7 +153,7 @@ public class TP_225150201111028_VirganantaSaputra_1 {
             if (sum>nilaiTerbesar)
                 nilaiTerbesar = sum;
         }
-        return nilaiTerbesar;
+        return nilaiTerbesar/banyakSiswaMatpel;
     }
     public static void hitungNilai(int semester){
         String nilaiHuruf = "";
@@ -227,12 +227,12 @@ public class TP_225150201111028_VirganantaSaputra_1 {
                     if (semesterBerapa.equals("GANJIL")){
                         semester = 0;
                     }
-                    int nilaiTerbesar = cariJuara(semester);
+                    int rerata = cariJuara(semester);
                     for (int k=0;k<banyakSiswa;k++){
                         for (int l=0;l<banyakSiswaMatpel;l++){
                             sum += siswaMatpelNilai[k][semester][l];
                         }
-                        if (sum==nilaiTerbesar){
+                        if ((sum/banyakSiswaMatpel)==rerata){
                             System.out.println("JUARA_1 " + semesterBerapa + " " + siswa[k]);
                         }
                         sum = 0;
