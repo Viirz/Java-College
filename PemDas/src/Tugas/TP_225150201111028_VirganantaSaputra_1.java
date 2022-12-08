@@ -1,8 +1,8 @@
 /**
  Nama 1: Virgananta Saputra (NIM 225150201111028)
  Nama 2: Muhammad Nadhil Luthfirrahman (NIM 225150207111049)
- Tanggung jawab 1: mengerjakan soal c, membuat source code, format file, dan diskusi jawban d dan e
- Tanggung jawab 2: mengerjakan soal a dan b, membuat pseudocode, membuat flowchart, dan diskusi jawaban d dan e
+ Tanggung jawab 1: membuat source code
+ Tanggung jawab 2: membantu diskusi source code dan mengerjakan format laporan
  **/
 package Tugas;
 
