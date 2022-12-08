@@ -89,11 +89,9 @@ public class TP_225150201111028_VirganantaSaputra_1 {
          switch (semester){
              case 0 ->{
                  siswaMatpelNilai[indexSiswa][0][indexMatpel] = nilai;
-                 break;
              }
              case 1 ->{
                  siswaMatpelNilai[indexSiswa][1][indexMatpel] = nilai;
-                 break;
              }
             }
         }
